@@ -3,16 +3,22 @@ package main
 import (
 	"log"
 	"net/http"
+
+	"github.com/Olamilekan-12/go-passenger/internal/config"
 )
 
 func main() {
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatalf("config: %v", err)
+	}
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /health", handleHealth)
 
-	log.Println("go-passenger starting")
+	addr := ":" + cfg.Port
+	log.Printf("go-passenger listening on %s in %s mode", addr, cfg.Env)
 
-	err := http.ListenAndServe(":8080", mux)
-	if err != nil {
+	if err := http.ListenAndServe(addr, mux); err != nil {
 		log.Fatalf("server failed: %v", err)
 	}
 }
