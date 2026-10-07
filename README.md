@@ -47,6 +47,12 @@ cp .env.example .env   # then fill in your own values
 go run ./cmd/api
 ```
 
+## Tests
+
+    go test ./...                 # run all tests
+    go test ./... -v              # with per-test output
+    go test ./... -cover          # with coverage summary
+
 ## License
 
 MIT
