@@ -32,6 +32,15 @@ Real environment variables take precedence over values in `.env`. The `.env` fil
 | --- | --- | --- |
 | `GET` | `/health` | Liveness check. Returns 200 with {"status":"ok"} |
 
+## Shutdown behaviour
+
+The service handles SIGINT and SIGTERM. On either signal it stops accepting new
+connections and waits up to 10 seconds for in-flight requests to finish before
+exiting. Deployment platforms must allow a termination grace period longer than
+10 seconds, or shutdown will be cut short by SIGKILL.
+
+Request timeouts: 5s for headers, 15s read, 15s write, 60s idle.
+
 ## Status
 
 Early development. Nothing is stable yet.
